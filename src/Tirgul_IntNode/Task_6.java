@@ -1,109 +1,52 @@
 package Tirgul_IntNode;
 
-import java.util.Scanner;
-
+//Done!
 public class Task_6 {
 
-    public static IntNode noSeqList(IntNode myList) {
-        IntNode crnt = myList;
-        while (crnt != null) {
-            IntNode temp = crnt;
-            while (temp.getNext() != null) {
-                if (crnt == temp.getNext()) {
-                    temp.setNext(temp.getNext().getNext());
-                }
-                temp = temp.getNext();
+    public static boolean inList(IntNode myList, int i){
+        for(IntNode crnt = myList; crnt!=null; crnt=crnt.getNext()){
+            if (crnt.getValue()==i){
+                return true;
             }
-            crnt = crnt.getNext();
         }
-        IntNode m = myList;
-        System.out.println("the new list: ");
-        while (m != null) {
-            System.out.print(m.getValue() + ", ");
-            m = m.getNext();
+        return false;
+    }
+
+    public static IntNode noSeqList(IntNode myList) {
+        IntNode alreadyHasList = new IntNode(myList.getValue());
+        IntNode newCrnt = alreadyHasList;
+        for(IntNode crnt = myList; crnt!=null; crnt=crnt.getNext()){
+            //printList(alreadyHasList); System.out.println("");
+            if(!inList(alreadyHasList,crnt.getValue())){
+                newCrnt.setNext(new IntNode(crnt.getValue()));
+                newCrnt = newCrnt.getNext();
+            }
         }
-        return m;
+        return alreadyHasList;
     }
 
     public static void printList(IntNode myList){
-        boolean stop = false;
-        for(IntNode crnt = myList; !stop; crnt=crnt.getNext()){
+        for(IntNode crnt = myList; crnt!=null; crnt=crnt.getNext()){
             System.out.print(crnt.getValue() + ", ");
-            if(crnt.getNext()==null){
-                System.out.print(crnt.getValue());
-                stop = true;
-            }
         }
     }
 
-        /*Other.Tirgul_IntNode curr = myList;
-        Other.Tirgul_IntNode newList = new Other.Tirgul_IntNode(curr.getValue());
-        Other.Tirgul_IntNode output = newList;
-        while (curr.getNext() != null) {
-            if (curr.getValue() == curr.getNext().getValue()) {
-                curr = curr.getNext();
-            } else {
-                newList.setNext(new Other.Tirgul_IntNode(curr.getValue(), curr.getNext()));
-                newList = newList.getNext();
-                curr = curr.getNext();
-            }
+    public static IntNode generateList(int length, int maxNum){
+        int num = (int)(Math.random()*maxNum+1);
+        IntNode myList = new IntNode(num);
+        int count = 2;
+        for(IntNode crnt = myList; count<length; crnt=crnt.getNext()){
+            num = (int)(Math.random()*maxNum+1);
+            crnt.setNext(new IntNode(num));
+            count++;
         }
-        return output;
+        return myList;
     }
-        /*
-        Other.Tirgul_IntNode newList;
-        Other.Tirgul_IntNode output = newList;
-        Other.Tirgul_IntNode crnt = myList;
-        Other.Tirgul_IntNode newCrnt = newList;
-        /*while (crnt.getNext() == null) {
-            if (crnt.getNext().getValue() != crnt.getValue()) {
-                newCrnt.setNext(crnt.getNext());
-                crnt = crnt.getNext();
-                newCrnt = newCrnt.getNext();
-                //newCrnt.setNext(crnt.getNext());
-                //newCrnt = newCrnt.getNext();
-            }
-            crnt.setNext(crnt.getNext());
-        }
-        return newList;*/
 
-        /*
-        Other.Tirgul_IntNode newList = new Other.Tirgul_IntNode(myList.getValue());
-        Other.Tirgul_IntNode crnt = myList;
-        Other.Tirgul_IntNode newCrnt = newList;
-        while(crnt.getNext() == null){
-            if(crnt.getNext().getValue() != crnt.getValue()){
-                newCrnt.setNext(crnt.getNext());
-                newCrnt = newCrnt.getNext();
-            }
-            crnt.setNext(crnt.getNext());
-        }
-        return newList;
-        */
-
-    public static Scanner reader = new Scanner(System.in);
-    public static void main(String[] args) {
-
-        IntNode myList = new IntNode((int)(Math.random()*2));
-        //Other.Tirgul_IntNode myList = new Other.Tirgul_IntNode(1);
-        IntNode crnt = myList;
-        //System.out.print(crnt.getValue());
-        for(int i=0; i<10; i++){
-            crnt.setNext(new IntNode((int)(Math.random()*2)));
-            //crnt.setNext(new Other.Tirgul_IntNode(1));
-            crnt = crnt.getNext();
-        }
+    public static void main(String[] args){
+        IntNode myList = generateList(10, 10);
         printList(myList);
-        printList(noSeqList(myList));
-
-        /*
-            crnt.setNext(new Other.Tirgul_IntNode((int)(Math.random()*10)));
-            //crnt.setNext(new Other.Tirgul_IntNode(1));
-            crnt = crnt.getNext();
-            */
         System.out.println("");
-        //System.out.println("noSeqList = " + noSeqList(myList));
-        //System.out.println("seqNum = " + seqNum(myList, 1));
-        //System.out.println("seqNum = " + seqNum(myList, 6));
-        }
+        printList(noSeqList(myList));
     }
+}
